@@ -6,6 +6,9 @@ import matplotlib.pyplot as plt
 import time
 from scipy.io import wavfile
 from scipy.signal import butter, lfilter
+import warnings
+from scipy.io.wavfile import WavFileWarning
+
 
 def butter_lowpass(cutoff, fs, order=4):
     nyquist = 0.5 * fs
@@ -29,6 +32,8 @@ def normalize_signal(signal):
     return normalized_signal
 
 def main():
+    # Desativar temporariamente os avisos da biblioteca scipy.io.wavfile
+    warnings.filterwarnings("ignore", category=WavFileWarning)
     # Abra o arquivo .wav em modo de leitura
     taxa_amostragem, dados = wavfile.read("golFox.wav")
     
@@ -51,15 +56,15 @@ def main():
     sinal_modulado = (1 + dados_filtrados) * portadora
 
     # # Reproduzir o sinal modulado
-    # sd.play(sinal_modulado, taxa_amostragem)
-    # sd.wait()  # Aguarde a reprodução terminar
+    sd.play(sinal_modulado, taxa_amostragem)
+    sd.wait()  # Aguarde a reprodução terminar
 
      # Normalizar o sinal modulado
     sinal_modulado_normalizado = normalize_signal(sinal_modulado)
 
-    # Reproduzir o sinal modulado normalizado
-    sd.play(sinal_modulado_normalizado, taxa_amostragem)
-    sd.wait()  # Aguarde a reprodução terminar
+
+    # Salvar o áudio modulado normalizado em um arquivo .wav
+    wavfile.write("sinal_modulado_normalizado.wav", taxa_amostragem, sinal_modulado_normalizado)
 
     tempo = np.arange(0, len(dados)) / taxa_amostragem
 
