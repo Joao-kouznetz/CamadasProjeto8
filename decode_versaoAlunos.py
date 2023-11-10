@@ -64,7 +64,7 @@ def main():
 
 
     # Salvar o áudio modulado normalizado em um arquivo .wav
-    wavfile.write("sinal_modulado_normalizado.wav", taxa_amostragem, sinal_modulado_normalizado)
+    wavfile.write("sinalModulado.wav", taxa_amostragem, sinal_modulado_normalizado)
 
     tempo = np.arange(0, len(dados)) / taxa_amostragem
 
